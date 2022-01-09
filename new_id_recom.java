@@ -4,9 +4,9 @@ class Solution {
     
         answer = new_id.toLowerCase();
         
-        String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
+        String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s-_.]";
         answer = answer.replaceAll(match, "");
-
+        
         return answer;
     }
-}s
+}

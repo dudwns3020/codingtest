@@ -8,35 +8,37 @@ class Solution {
         answer = answer.replaceAll("[^a-z0-9-_.]", "");
         
         //3
-        //for(int i = 0 ; i < answer.length() - 1 ; i++ ){
-        //    if(answer.charAt(i) == answer.charAt(i + 1)) {
-        //        answer = answer.replace(answer.charAt(i), "");
-        //    }
-        //}
+        answer = answer.replaceAll("[.]{2,}", ".");
         
         //4
-        if(answer.charAt(0) == '.') {
-            answer = answer.substring(1, answer.length());
-        }
-        //else if(answer.charAt(answer.length()) == '.') {
-        //    answer = answer.substring(0, answer.length()-1);
+        ///if(answer.charAt(0) == '.') {
+        //    answer = answer.substring(1, answer.length());
         //}
+        //else if(answer.charAt(answer.length() - 1) == '.') {
+        //    answer = answer.substring(0, answer.length() - 1);
+        //}
+        answer = answer.replaceAll("^[.]", "");
+        answer = answer.replaceAll("[.]$", "");
+        
+        //answer = answer.replaceAll("^(\\.)|(\\.)$","");
 
         //5
         if(answer.length() == 0) {
-            answer = "a";
+            answer += "a";
         }
+        //if(answer.empty()) {
+        //    answer = "a"
+        //}
 
         //6
-        if(answer.length() >= 16) {
-            answer.substring(0, 15);
+        if(answer.length() > 15) {
+            answer = answer.substring(0, 15);
+            answer = answer.replaceAll("[.]$", "");
         }
-        
+       
         //7
-         if(answer.length() <= 2) {
-            while(answer.length() < 3){
-                answer += answer.charAt(0);
-            }        
+        while(answer.length() < 3) {
+             answer += answer.charAt(answer.length() - 1);
         }
         
         return answer;

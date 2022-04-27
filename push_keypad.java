@@ -22,6 +22,9 @@ class Solution {
     }
     
     public String len (int numbers, String hand, int r, int l) {
-        
+        if(r == 5 || l == 5) {
+            return "b";
+        }
+        return "a";
     }
 }

@@ -1,10 +1,10 @@
 class Solution {
     public String solution(int[] numbers, String hand) {
         String answer = "";
-        int l = 0;
-        int r = 0;
+        int l = 10;
+        int r = 12;
         
-        for(int i = 0; i < numbers.length; i++) {            
+        for(int i = 0; i < numbers.length; i++) {
             if(numbers[i] == 1 || numbers[i] == 4 || numbers[i] == 7) {
                 l = numbers[i];
                 answer += "L";
@@ -14,17 +14,33 @@ class Solution {
                 answer += "R";
             }
             else {
-                answer += len(numbers[i], hand, r, l);
+                if(numbers[i] == 0) {
+                    numbers[i] = 11;
+                }
+                int rlen = Math.abs(numbers[i] - r)/3 + Math.abs(numbers[i] - r)%3;
+                int llen = Math.abs(numbers[i] - l)/3 + Math.abs(numbers[i] - l)%3;
+                
+                if(rlen == llen) {
+                    if(hand.equals("left")) {
+                        l = numbers[i];
+                        answer += "L";
+                    }
+                    else {
+                        r = numbers[i];
+                        answer += "R";
+                    }
+                }
+                else if(rlen < llen) {
+                    r = numbers[i];
+                    answer += "R";
+                }
+                else {
+                    l = numbers[i];
+                    answer += "L";
+                }
             }
         }
         
         return answer;
-    }
-    
-    public String len (int numbers, String hand, int r, int l) {
-        if(r == 5 || l == 5) {
-            return "b";
-        }
-        return "a";
     }
 }

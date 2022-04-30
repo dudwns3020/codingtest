@@ -1,16 +1,18 @@
 class Solution {
     public int solution(String s) {
         int answer = 0;
-        String str = "";
+        String str1 = "";
         for(int i = 1; i <= s.length()/2; i++) {
-            for(int j = 0; j <= s.length() - i; j++) {
-                str = s.substring(j, j + i);
-                System.out.print(str + " ");
-                if(str.equals(s.substring())) {
-                    System.out.println("*");
+            str1 = s.substring(0, i);
+            int cnt = 0;
+            for(int j = i; j < s.length() - i; j += i) {
+                if(str1.equals(s.substring(j, j + i))) {
+                    cnt++;
+                }
+                else {
+                    str1 = s.substring(j, j + i);
                 }
             }
-            System.out.println("");
         }
         
         return answer;

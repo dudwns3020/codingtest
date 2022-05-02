@@ -1,18 +1,24 @@
 class Solution {
     public int solution(String s) {
-        int answer = 0;
-        String str1 = "";
+        int answer = s.length();
+        
         for(int i = 1; i <= s.length()/2; i++) {
-            str1 = s.substring(0, i);
-            int cnt = 0;
-            for(int j = i; j < s.length() - i; j += i) {
-                if(str1.equals(s.substring(j, j + i))) {
+            int cnt = 1;
+            String str = s.substring(0, i);
+            int no = 0;
+            
+            for(int j = i; j <= s.length() - i; j += i) {
+                if(str.equals(s.substring(j, j + i))) {
                     cnt++;
                 }
                 else {
-                    str1 = s.substring(j, j + i);
+                    if(cnt > 1) {
+                        answer += (int)Math.log10(cnt) + 1;
+                    }
+                    
                 }
             }
+            answer = Math.min(answer, no);
         }
         
         return answer;

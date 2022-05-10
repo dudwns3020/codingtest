@@ -1,8 +1,11 @@
+import java.util.*;
+
 class Solution {
     public String solution(String p) {
-        String answer = "";
-        String u = "";
-        String v = "";
+        StringBuilder answer = new StringBuilder();
+        StringBuilder u = new StringBuilder();
+        StringBuilder v = new StringBuilder();
+        
         if(p.isEmpty()) {
             return p;
         }
@@ -20,25 +23,34 @@ class Solution {
             }
             
             if(leftp == rightp) {
-                u = p.substring(0, i+1);
-                v = p.substring(i+1, p.length());
+                u.append(p.substring(0, i+1));
+                v.append(p.substring(i+1, p.length()));
                 break;
             }
         }
         
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        sb.append(solution(v));
-        sb.append(")");
-        u = u.substring(1, u.length()-1);
-        sb.append(swap(u));
+        if(Correct(u.toString())) {
+            return u.append(solution(v.toString())).toString();
+        }        
+                
+        answer.append("(");
+        answer.append(solution(v.toString()));
+        answer.append(")");
+        answer.append(Swap(u.substring(1, u.length()-1).toString()));
         
-        answer = u.toString();
-        
-        return answer;
+        return answer.toString();
+    }
+
+   public boolean Correct(String str) {
+        if(str.substring(0,1).equals("(")) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
-    public String swap(String str) {
+    public static String Swap(String str) {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < str.length(); i++) {
             if(str.substring(i, i+1).equals("(")) {
@@ -51,3 +63,6 @@ class Solution {
         return sb.toString();
     }
 }
+    
+    
+   

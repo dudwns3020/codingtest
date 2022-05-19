@@ -1,22 +1,32 @@
 import java.util.*;
-import java.util.regex.Pattern;
 
 class Solution {
     public int solution(String str1, String str2) {
         int answer = 0;
-        String pattern = "^[a-zA-z0-9]*$";
+        
+        str1 = str1.toUpperCase();
+        str2 = str2.toUpperCase();
         
         ArrayList<String> al1 = new ArrayList<>();
         ArrayList<String> al2 = new ArrayList<>();
         
         for(int i = 0; i < str1.length() - 1; i++) {
-            if(Pattern.matches(pattern, str1.substring(i, i + 2))) {
-                al1.add(str1.substring(i, i + 2).toUpperCase());
+            char l1 = str1.charAt(i);
+            char l2 = str1.charAt(i+1);
+            if(l1 > 64 && l1 <91) {
+                if(l2 > 64 && l2 <91) {
+                    al1.add(Character.toString(l1) + Character.toString(l2));
+                }
             }
-        }        
+        }
+        
         for(int i = 0; i < str2.length() - 1; i++) {
-            if(Pattern.matches(pattern, str2.substring(i, i + 2))) {
-                al2.add(str2.substring(i, i + 2).toUpperCase());
+            char l1 = str2.charAt(i);
+            char l2 = str2.charAt(i+1);
+            if(l1 > 64 && l1 <91) {
+                if(l2 > 64 && l2 <91) {
+                    al2.add(Character.toString(l1) + Character.toString(l2));
+                }
             }
         }
 
@@ -27,15 +37,23 @@ class Solution {
             if(al2.remove(s)) {
                 intersection.add(s);
             }
+            union.add(s);
         }
         
-        double similar = (double) intersection.size()/union.size();
+        for(String s: al2) {
+            union.add(s);
+        }
+
+        double similar = 0;
         
-        if(similar == 0) {
+        if(union.size() == 0) {
             similar = 1;
         }
-        answer = (int)(similar * 65536);
-        System.out.println(similar);
+        else {
+            similar = (double) intersection.size() / (double) union.size();
+        }
+        
+        answer = (int) (similar * 65536);
         
         return answer;
     }

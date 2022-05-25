@@ -3,6 +3,7 @@ import java.util.*;
 class Solution {
     
     HashMap<String, Integer> hm = new HashMap<>();
+    ArrayList<Integer> al = new ArrayList<>();
 
     public String[] solution(String[] orders, int[] course) {
         String[] answer = {};
@@ -16,10 +17,31 @@ class Solution {
                 combi(orders_char, visited, 0, len, course[i]);
             }
         }
-        for(String a: hm.keySet()) {
-            if(a.length() == 2) {
-            System.out.println(a + ", " +hm.get(a));
+        
+        List<String> list = new ArrayList<>();
+        for(int n: course) {
+            int max = 0;
+            for(String s: hm.keySet()) {
+                if(s.length() == n ) {
+                    al.add(hm.get(s));
+                    max = Collections.max(al);
+                }
             }
+            for(String s: hm.keySet()) {
+                if(hm.get(s) == max && s.length() == n && max > 1) {
+                    list.add(s);
+                }
+            }
+            max = 0;
+            al.clear();
+        }
+        
+        Collections.sort(list);
+        
+        answer = new String[list.size()];
+        
+        for(int i = 0; i < list.size(); i++) {
+            answer[i] = list.get(i);
         }
         
         return answer;

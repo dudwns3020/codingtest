@@ -2,66 +2,52 @@ import java.util.*;
 
 class Solution {
     
-    HashMap<String, Integer> hm = new HashMap<>();
-    ArrayList<Integer> al = new ArrayList<>();
-
+    List<String> answerList = new ArrayList<>();
+    Map<String, Integer> hashMap = new HashMap<>();
+        
     public String[] solution(String[] orders, int[] course) {
-        String[] answer = {};
-
-        for(String s: orders) {
-            char[] orders_char = s.toCharArray();
-            Arrays.sort(orders_char);
-            int len = orders_char.length;
-            boolean[] visited = new boolean[len];
-            for(int i = 0; i < course.length; i++) {
-                combi(orders_char, visited, 0, len, course[i]);
-            }
+       
+        for(int i = 0; i < orders.length; i++) {
+            char[] arr = orders[i].toCharArray();
+            Arrays.sort(arr);
+            orders[i] = String.valueOf(arr);
         }
         
-        List<String> list = new ArrayList<>();
-        for(int n: course) {
-            int max = 0;
-            for(String s: hm.keySet()) {
-                if(s.length() == n ) {
-                    al.add(hm.get(s));
-                    max = Collections.max(al);
+        for(int courselength: course) {
+            for(String order: orders) {
+                combination("", order, courselength);
+            }
+            
+            if(!hashMap.isEmpty()) {
+                List<Integer> countList = new ArrayList<>(hashMap.values());
+                int max = Collections.max(countList);
+                
+                if(max > 1) {
+                    for(String key: hashMap.keySet()) {
+                        if(max == hashMap.get(key)) {
+                            answerList.add(key);
+                        }
+                    }
                 }
+                hashMap.clear();
             }
-            for(String s: hm.keySet()) {
-                if(hm.get(s) == max && s.length() == n && max > 1) {
-                    list.add(s);
-                }
-            }
-            max = 0;
-            al.clear();
         }
         
-        Collections.sort(list);
-        
-        answer = new String[list.size()];
-        
-        for(int i = 0; i < list.size(); i++) {
-            answer[i] = list.get(i);
+        Collections.sort(answerList);
+        String[] answer = new String[answerList.size()];
+        for(int i = 0; i < answer.length; i++) {
+            answer[i] = answerList.get(i);
         }
-        
         return answer;
     }
     
-    void combi(char[] arr, boolean[] visited, int s, int n, int r) {
-        String str = "";
-        if(r == 0) {
-            for(int i = 0; i < n; i++) {
-                if(visited[i]) {
-                    str += arr[i];
-                }
-            }
-            hm.put(str,hm.getOrDefault(str,0) + 1);
+    public void combination(String order, String others, int count) {
+        if(count == 0) {
+            hashMap.put(order, hashMap.getOrDefault(order, 0) + 1);
+            return;
         }
-        
-        for(int i = s; i < n; i++) {
-            visited[i] = true;
-            combi(arr, visited, i+1, n, r-1);
-            visited[i] = false;
+        for(int i = 0; i < others.length(); i++) {
+            combination(order + others.charAt(i), others.substring(i+1), count - 1);
         }
     }
 }

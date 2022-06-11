@@ -1,14 +1,11 @@
 import java.util.*;
 
 class Solution {
-    ArrayList<Integer> numbers;
-    ArrayList<Character> operators;
-    ArrayList<String> operpermu;
     public long solution(String expression) {
         long answer = 0;
         
-        numbers = new ArrayList<>();
-        operators = new ArrayList<>();
+        ArrayList<Integer> numbers = new ArrayList<>();
+        ArrayList<Character> operators = new ArrayList<>();
         
         String expressnumber =  expression.replaceAll("[^0-9]", " ");
         String[] number = expressnumber.split(" ");
@@ -32,25 +29,20 @@ class Solution {
         
         boolean[] visited = new boolean[operators.size()];
         String[] output = new String[size];
-        operpermu = new ArrayList<>();
         
-        permu(operators, operpermu, output, visited, 0, operators.size());
-        for(String s: operpermu) {
-            System.out.println(s);
-        }
+        permu(operators, output, visited, 0, operators.size());
+
         return answer;
     }
     
-    public void permu(ArrayList<Character> operators, ArrayList<String> operpermu, String[] output, boolean[] visited, int depth, int r) {
+    public void permu(ArrayList<Character> operators, String[] output, boolean[] visited, int depth, int r) {
         if(depth == r) {
-            operpermu.add(output.toString());
             return;
         }
         for(int i = 0; i < operators.size(); i++) {
             if(!visited[i]) {
                 visited[i] = true;
-                output[depth] = operators.get(i).toString();
-                permu(operators, operpermu, output, visited, depth+1, r);
+                permu(operators, output, visited, depth+1, r);
                 visited[i] = false;
             }
         }
